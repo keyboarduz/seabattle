@@ -40,7 +40,7 @@ const show = {
 const fire = (event) => {
     const target = event.target;
 
-    if (target.tagName != 'TD') {
+    if (target.tagName != 'TD' || target.classList.contains('miss')) {
         return false;
     }
     
