@@ -6,6 +6,11 @@ const enemy = document.getElementById('enemy');
 const again = document.getElementById('again');
 const headerEl = document.querySelector('.header');
 
+/**
+ * values => ['start', 'end']
+ */
+let gameStatus = 'start';
+
 const game = {
     ships: [
         {
@@ -25,7 +30,16 @@ const game = {
             hit: ['']
         }
     ],
-    shipCount: 4
+    shipCount: 4,
+    status: 'load',
+    start() {
+        this.status = 'start';
+        enemy.addEventListener('click', fire);
+    },
+    end() {
+        this.status = 'end';
+        enemy.removeEventListener('click', fire);
+    }
 };
 
 const play = {
@@ -63,7 +77,7 @@ const show = {
 const fire = (event) => {
     const target = event.target;
 
-    if (target.tagName !== 'TD' || target.classList.length > 0) {
+    if (target.tagName !== 'TD' || target.classList.length > 0 || gameStatus === 'end') {
         return false;
     }
     // 
@@ -92,8 +106,10 @@ const fire = (event) => {
 
                 // proverka na game end
                 if (game.shipCount <= 0) {
+                    game.end();
                     headerEl.textContent = "Игра Окончена!";
                     headerEl.style.color = 'red';
+                    
 
                     if (play.shot < play.record || play.record === 0) {
                         localStorage.setItem('seaBattleRecord', play.shot);
@@ -109,7 +125,7 @@ const fire = (event) => {
 };
 
 const init = () => {
-    enemy.addEventListener('click', fire);
+    game.start();
     play.render();
 
     again.addEventListener('click', (event) => {
