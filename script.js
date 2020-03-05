@@ -6,11 +6,6 @@ const enemy = document.getElementById('enemy');
 const again = document.getElementById('again');
 const headerEl = document.querySelector('.header');
 
-/**
- * values => ['start', 'end']
- */
-let gameStatus = 'start';
-
 const game = {
     ships: [
         {
@@ -77,7 +72,7 @@ const show = {
 const fire = (event) => {
     const target = event.target;
 
-    if (target.tagName !== 'TD' || target.classList.length > 0 || gameStatus === 'end') {
+    if (target.tagName !== 'TD' || target.classList.length > 0) {
         return false;
     }
     // 
